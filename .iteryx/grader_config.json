@@ -1,0 +1,195 @@
+{
+  "schema": "iteryx/java-grader/v1",
+
+  "assignmentName": "Ch. 9 Challenge 3",
+
+  "project": {
+    "workingDirectory": ".",
+    "mainFile": "src/SpaceNumberCruncher.java",
+    "mainClass": "SpaceNumberCruncher",
+    "outputDirectory": ".iteryx/out",
+    "compileCommand": [
+      "javac",
+      "-d",
+      ".iteryx/out",
+      "src/SpaceNumberCruncher.java"
+    ],
+    "runCommand": [
+      "java",
+      "-cp",
+      ".iteryx/out",
+      "SpaceNumberCruncher"
+    ]
+  },
+
+  "settings": {
+    "compileTimeoutSeconds": 30,
+    "runTimeoutSeconds": 10,
+    "defaultCaseSensitive": false,
+    "defaultNormalizeWhitespace": true
+  },
+
+  "helpTopics": {
+    "arrays": {
+      "title": "Building the double array",
+      "whereToLook": [
+        "Check how you split the input string at the commas.",
+        "Make sure every comma-separated piece ends up in the array, including ones that fail to parse - those should become 0.0 rather than being left out.",
+        "Use a try/catch around Double.parseDouble so a bad value doesn't crash the program."
+      ]
+    },
+    "methods": {
+      "title": "Using separate methods",
+      "whereToLook": [
+        "Each calculation (average, highest, lowest) should live in its own method, not directly in main.",
+        "main should call convertToDoubleArray, then calculateAverage, findHighest, and findLowest, then display the results."
+      ]
+    },
+    "input": {
+      "title": "Scanner input and the invalid-input message",
+      "whereToLook": [
+        "Make sure your prompt text matches the challenge exactly.",
+        "Check what your program does when the array returned by convertToDoubleArray has zero elements - it should print the invalid-input message and stop instead of calculating statistics."
+      ]
+    }
+  },
+
+  "sourceChecks": [
+    {
+      "name": "Uses Scanner",
+      "type": "regex",
+      "pattern": "\\bScanner\\b",
+      "points": 2,
+      "message": "This challenge requires you to use a Scanner to read the space probe data entered by the user.",
+      "helpTopic": "input"
+    },
+    {
+      "name": "Has convertToDoubleArray method",
+      "type": "regex",
+      "pattern": "double\\s*\\[\\]\\s*convertToDoubleArray\\b",
+      "points": 1,
+      "message": "Create a method named convertToDoubleArray that returns a double array.",
+      "helpTopic": "methods"
+    },
+    {
+      "name": "Has calculateAverage method",
+      "type": "regex",
+      "pattern": "double\\s+calculateAverage\\b",
+      "points": 1,
+      "message": "Create a method named calculateAverage that returns a double.",
+      "helpTopic": "methods"
+    },
+    {
+      "name": "Has findHighest method",
+      "type": "regex",
+      "pattern": "double\\s+findHighest\\b",
+      "points": 1,
+      "message": "Create a method named findHighest that returns a double.",
+      "helpTopic": "methods"
+    },
+    {
+      "name": "Has findLowest method",
+      "type": "regex",
+      "pattern": "double\\s+findLowest\\b",
+      "points": 1,
+      "message": "Create a method named findLowest that returns a double.",
+      "helpTopic": "methods"
+    }
+  ],
+
+  "tests": [
+    {
+      "name": "Sample data - statistics header",
+      "input": "123.5, 456.2, 789.9, 234.0, 567.8\n",
+      "expectedOutput": "Space Probe Data Statistics:",
+      "comparison": "included",
+      "points": 2,
+      "message": "Your program should display 'Space Probe Data Statistics:' before the calculated values.",
+      "helpTopic": "methods",
+      "possibleErrors": [
+        { "type": "no_output" },
+        { "type": "runtime_error" }
+      ]
+    },
+    {
+      "name": "Sample data - average",
+      "input": "123.5, 456.2, 789.9, 234.0, 567.8\n",
+      "expectedOutput": "Average measurement: 434\\.2[78]\\d*",
+      "comparison": "regex",
+      "points": 3,
+      "message": "The average of 123.5, 456.2, 789.9, 234.0, and 567.8 should be about 434.28. Check that calculateAverage divides the total by the number of elements in the array.",
+      "helpTopic": "methods",
+      "possibleErrors": [
+        { "type": "expected_missing" }
+      ]
+    },
+    {
+      "name": "Sample data - highest",
+      "input": "123.5, 456.2, 789.9, 234.0, 567.8\n",
+      "expectedOutput": "Highest measurement: 789.9",
+      "comparison": "included",
+      "points": 2,
+      "message": "findHighest should return the largest value from the array built from the entered data.",
+      "helpTopic": "methods"
+    },
+    {
+      "name": "Sample data - lowest",
+      "input": "123.5, 456.2, 789.9, 234.0, 567.8\n",
+      "expectedOutput": "Lowest measurement: 123.5",
+      "comparison": "included",
+      "points": 2,
+      "message": "findLowest should return the smallest value from the array built from the entered data.",
+      "helpTopic": "methods"
+    },
+    {
+      "name": "Different data set (4 values)",
+      "input": "40.5, 12.25, 8.0, 3.25\n",
+      "expectedOutput": "Average measurement: 16.0\nHighest measurement: 40.5\nLowest measurement: 3.25",
+      "comparison": "included",
+      "points": 4,
+      "message": "Your results should be calculated from whatever data is entered, not just the example from the challenge. Check that average, highest, and lowest are computed from the array rather than fixed values.",
+      "helpTopic": "methods",
+      "possibleErrors": [
+        {
+          "type": "hardcoded_output_hint",
+          "badText": "434.28",
+          "message": "Your output still shows the example average even though different data was entered. Make sure your calculations use the values entered by the user."
+        }
+      ]
+    },
+    {
+      "name": "Different data set (2 values)",
+      "input": "18.5, 7.5\n",
+      "expectedOutput": "Average measurement: 13.0\nHighest measurement: 18.5\nLowest measurement: 7.5",
+      "comparison": "included",
+      "points": 2,
+      "message": "Check that your program correctly recalculates the average, highest, and lowest for a different set of entered values.",
+      "helpTopic": "methods"
+    },
+    {
+      "name": "Invalid value within the data",
+      "input": "10.0, abc, 30.0, 20.0\n",
+      "expectedOutput": "Average measurement: 15.0\nHighest measurement: 30.0\nLowest measurement: 0.0",
+      "comparison": "included",
+      "points": 2,
+      "message": "When one of the comma-separated values isn't a valid number, it should be stored as 0.0 in the array (not skipped). Check how you handle a failed Double.parseDouble conversion in convertToDoubleArray.",
+      "helpTopic": "arrays",
+      "possibleErrors": [
+        { "type": "runtime_error" }
+      ]
+    },
+    {
+      "name": "Blank input",
+      "input": "\n",
+      "expectedOutput": "Invalid input. Please provide numeric values.",
+      "comparison": "included",
+      "points": 2,
+      "message": "When the entered line contains no data, your program should display the invalid-input message instead of trying to calculate statistics.",
+      "helpTopic": "input",
+      "possibleErrors": [
+        { "type": "no_output" },
+        { "type": "runtime_error" }
+      ]
+    }
+  ]
+}
